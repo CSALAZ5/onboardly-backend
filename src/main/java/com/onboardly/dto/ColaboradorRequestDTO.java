@@ -5,7 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ColaboradorRequestDTO {
 
     @NotBlank
@@ -19,36 +24,4 @@ public class ColaboradorRequestDTO {
     private LocalDate fechaIngreso;
 
     private Long eventoTecnicoId;
-
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public LocalDate getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(LocalDate fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
-
-    public Long getEventoTecnicoId() {
-        return eventoTecnicoId;
-    }
-
-    public void setEventoTecnicoId(Long eventoTecnicoId) {
-        this.eventoTecnicoId = eventoTecnicoId;
-    }
 }

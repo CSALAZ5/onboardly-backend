@@ -1,10 +1,29 @@
 package com.onboardly.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "colaboradores")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Colaborador {
 
     @Id
@@ -21,82 +40,13 @@ public class Colaborador {
     private LocalDate fechaIngreso;
 
     @Column(name = "onboarding_bienvenida", nullable = false)
-    private boolean onboardingBienvenida = false;
+    private boolean onboardingBienvenida;
 
     @Column(name = "onboarding_tecnico", nullable = false)
-    private boolean onboardingTecnico = false;
+    private boolean onboardingTecnico;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evento_tecnico_id")
     private EventoOnboardingTecnico eventoTecnico;
 
-    public Colaborador() {
-    }
-
-    public Colaborador(String nombreCompleto, String correo, LocalDate fechaIngreso, boolean onboardingBienvenida, boolean onboardingTecnico, EventoOnboardingTecnico eventoTecnico) {
-        this.nombreCompleto = nombreCompleto;
-        this.correo = correo;
-        this.fechaIngreso = fechaIngreso;
-        this.onboardingBienvenida = onboardingBienvenida;
-        this.onboardingTecnico = onboardingTecnico;
-        this.eventoTecnico = eventoTecnico;
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public LocalDate getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(LocalDate fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
-
-    public boolean isOnboardingBienvenida() {
-        return onboardingBienvenida;
-    }
-
-    public void setOnboardingBienvenida(boolean onboardingBienvenida) {
-        this.onboardingBienvenida = onboardingBienvenida;
-    }
-
-    public boolean isOnboardingTecnico() {
-        return onboardingTecnico;
-    }
-
-    public void setOnboardingTecnico(boolean onboardingTecnico) {
-        this.onboardingTecnico = onboardingTecnico;
-    }
-
-    public EventoOnboardingTecnico getEventoTecnico() {
-        return eventoTecnico;
-    }
-
-    public void setEventoTecnico(EventoOnboardingTecnico eventoTecnico) {
-        this.eventoTecnico = eventoTecnico;
-    }
 }
