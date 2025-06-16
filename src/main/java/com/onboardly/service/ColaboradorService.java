@@ -1,20 +1,23 @@
 package com.onboardly.service;
 
-import com.onboardly.dto.ColaboradorRequestDTO;
-import com.onboardly.dto.ColaboradorResponseDTO;
-import com.onboardly.model.Colaborador;
-import com.onboardly.model.HistorialOnboarding;
-import com.onboardly.exception.ResourceNotFoundException;
-import com.onboardly.repository.EventoOnboardingTecnicoRepository;
-import com.onboardly.repository.HistorialOnboardingRepository;
-import com.onboardly.repository.ColaboradorRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.onboardly.dto.ColaboradorRequestDTO;
+import com.onboardly.dto.ColaboradorResponseDTO;
+import com.onboardly.dto.EventoOnboardingTecnicoResponseDTO;
+import com.onboardly.exception.ResourceNotFoundException;
+import com.onboardly.model.Colaborador;
+import com.onboardly.model.EventoOnboardingTecnico;
+import com.onboardly.model.HistorialOnboarding;
+import com.onboardly.repository.ColaboradorRepository;
+import com.onboardly.repository.EventoOnboardingTecnicoRepository;
+import com.onboardly.repository.HistorialOnboardingRepository;
 
 @Service
 public class ColaboradorService {
@@ -33,10 +36,11 @@ public class ColaboradorService {
     }
 
     public List<ColaboradorResponseDTO> getAllColaboradores() {
+        System.out.println("Fetching all colaboradores in service");
         List<Colaborador> colaboradores = colaboradorRepository.findAll();
         return colaboradores.stream()
                 .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public ColaboradorResponseDTO getColaboradorById(Long id) {
@@ -112,6 +116,7 @@ public class ColaboradorService {
     }
 
     private ColaboradorResponseDTO convertToDto(Colaborador colaborador) {
+        System.out.println("Converting Colaborador to DTO: " + colaborador.getId());
         ColaboradorResponseDTO dto = new ColaboradorResponseDTO();
         dto.setId(colaborador.getId());
         dto.setNombreCompleto(colaborador.getNombreCompleto());
@@ -120,9 +125,18 @@ public class ColaboradorService {
         dto.setOnboardingBienvenida(colaborador.isOnboardingBienvenida());
         dto.setOnboardingTecnico(colaborador.isOnboardingTecnico());
         if (colaborador.getEventoTecnico() != null) {
-            // You might want a simpler DTO for EventoOnboardingTecnico here
-            dto.setEventoTecnico(colaborador.getEventoTecnico());
+            EventoOnboardingTecnico evento = colaborador.getEventoTecnico();
+
+            EventoOnboardingTecnicoResponseDTO eventoDTO = new EventoOnboardingTecnicoResponseDTO();
+            eventoDTO.setId(evento.getId());
+            eventoDTO.setNombre(evento.getNombre());
+            eventoDTO.setFechaInicio(evento.getFechaInicio());
+            eventoDTO.setFechaFin(evento.getFechaFin());
+
+            System.out.println("Setting EventoTecnico for Colaborador: " + evento.getId());
+            dto.setEventoTecnico(eventoDTO);
         }
+        System.out.println("Converted Colaborador to DTO: " + dto.getId());
         return dto;
     }
 
@@ -131,7 +145,6 @@ public class ColaboradorService {
         colaborador.setNombreCompleto(dto.getNombreCompleto());
         colaborador.setCorreo(dto.getCorreo());
         colaborador.setFechaIngreso(dto.getFechaIngreso());
-        // Onboarding status is set to default false upon creation
 
         if (dto.getEventoTecnicoId() != null) {
             eventoOnboardingTecnicoRepository.findById(dto.getEventoTecnicoId())
