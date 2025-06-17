@@ -2,7 +2,6 @@ package com.onboardly.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,8 +64,8 @@ public class ColaboradorService {
             colaborador.setFechaIngreso(updatedColaboradorDTO.getFechaIngreso());
             // Onboarding status is updated via the PATCH endpoint
 
-            if (updatedColaboradorDTO.getEventoTecnicoId() != null) {
-                eventoOnboardingTecnicoRepository.findById(updatedColaboradorDTO.getEventoTecnicoId())
+            if (updatedColaboradorDTO.getEventoTecnico() != null) {
+                eventoOnboardingTecnicoRepository.findById(updatedColaboradorDTO.getEventoTecnico())
                         .ifPresent(colaborador::setEventoTecnico);
             } else {
                 colaborador.setEventoTecnico(null);
@@ -145,9 +144,11 @@ public class ColaboradorService {
         colaborador.setNombreCompleto(dto.getNombreCompleto());
         colaborador.setCorreo(dto.getCorreo());
         colaborador.setFechaIngreso(dto.getFechaIngreso());
+        colaborador.setOnboardingBienvenida(dto.isOnboardingBienvenida());
+        colaborador.setOnboardingTecnico(dto.isOnboardingTecnico());
 
-        if (dto.getEventoTecnicoId() != null) {
-            eventoOnboardingTecnicoRepository.findById(dto.getEventoTecnicoId())
+        if (dto.getEventoTecnico() != null) {
+            eventoOnboardingTecnicoRepository.findById(dto.getEventoTecnico())
                     .ifPresent(colaborador::setEventoTecnico);
         }
         return colaborador;
