@@ -23,7 +23,7 @@ jobs:
       run: ./mvnw clean package -DskipTests
 
     - name: Upload .jar to S3
-      uses: aws-actions/aws-s3 cp@v1
+      uses: actions/aws-s3@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
