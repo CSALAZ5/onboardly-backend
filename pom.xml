@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.onboardly</groupId>
   <artifactId>Onboardly-Backend</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.1.1</version>
   <name>Onboardly Backend</name>
   <description>Backend project for Onboardly</description>
   <properties>

@@ -62,14 +62,4 @@ public class CalendarioController {
         eventoOnboardingTecnicoService.deleteEvento(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/verificar")
-    public ResponseEntity<String> verificarOnboardingTecnicoProximo() {
-        List<EventoOnboardingTecnicoResponseDTO> upcomingEvents = eventoOnboardingTecnicoService.getUpcomingEventos();
-        if (!upcomingEvents.isEmpty()) {
-            System.out.println("ALERT: There are upcoming technical onboardings within the next 7 days!");
-            return ResponseEntity.ok("Upcoming technical onboardings detected.");
-        }
-        return ResponseEntity.ok("No upcoming technical onboardings within the next 7 days.");
-    }
 }
